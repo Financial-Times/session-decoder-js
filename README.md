@@ -15,3 +15,16 @@ For more information:-
 - https://github.com/Financial-Times/next-session
 - https://github.com/Financial-Times/next-session-client
 
+## Installation
+
+` make install `
+
+### Test
+
+` make test`
+
+To run tests with coverage report
+
+`make test-coverage`
+
+

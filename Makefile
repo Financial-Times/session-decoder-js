@@ -5,4 +5,7 @@ node_modules/@financial-times/n-gage/index.mk:
 -include node_modules/@financial-times/n-gage/index.mk
 
 test:
+	mocha test --recursive
+
+test-coverage:
 	nyc mocha test --recursive

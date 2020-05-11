@@ -21,5 +21,12 @@
     "npm-prepublish": "^1.2.1",
     "nyc": "^15.0.1",
     "snyk": "^1.169.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "secret-squirrel-commitmsg",
+      "pre-commit": "secret-squirrel",
+      "pre-push": "make verify -j3"
+    }
   }
 }

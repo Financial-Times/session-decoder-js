@@ -2,7 +2,7 @@
 
 const crypto = require('crypto');
 const base64url = require('base64url');
-const msgpack = require('msgpack-javascript');
+const msgpack = require('msgpackr');
 const long = require('long');
 
 function convertPublicKeyToPEM (publicKey) {
@@ -14,12 +14,10 @@ ${base64PublicKey.replace(/(.{64})/g, '$1')}
 }
 
 function getSessionFromTokenBuffer (sessionTokenBuffer) {
-	const unpacker = new msgpack.Unpacker(sessionTokenBuffer);
-	const unpackedLong1 = unpacker.unpackInt();
-	const unpackedLong2 = unpacker.unpackInt();
+	const unpackedValues = msgpack.unpackMultiple(sessionTokenBuffer);
 
-	const mostSignificantBits = new long(unpackedLong1.low, unpackedLong1.high);
-	const leastSignificantBits = new long(unpackedLong2.low, unpackedLong2.high);
+	const mostSignificantBits = new long.fromString(unpackedValues[0].toString());
+	const leastSignificantBits = new long.fromString(unpackedValues[1].toString());
 	return uuidFrom(mostSignificantBits, leastSignificantBits);
 }
 

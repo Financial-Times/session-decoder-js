@@ -48,7 +48,6 @@ public/
 *.iml
 
 # n-gage dot files
-package-lock.json
 .editorconfig
 .eslintrc.js
 .pa11yci.js

@@ -36,7 +36,7 @@
     "hooks": {
       "commit-msg": "secret-squirrel-commitmsg",
       "pre-commit": "secret-squirrel",
-      "pre-push": "npm run lint && make test test-pa11y-parity -j3"
+      "pre-push": "npm run lint && make test -j3"
     }
   },
   "engines": {

@@ -29,20 +29,24 @@ function uuidFrom (mostSig, leastSig) {
 		toHexDigits(mostSig.shiftRight(16), 4),
 		toHexDigits(mostSig, 4),
 		toHexDigits(leastSig.shiftRight(48), 4),
-		toHexDigits(leastSig, 12)
+		toHexDigits(leastSig, 12),
 	].join('-');
 }
 
 function toHexDigits (val, digits) {
-	const hi = new long(1).shiftLeft((digits * 4));
-	return hi.or((val.and((hi - 1)))).toString(16).substring(1);
+	const hi = new long(1).shiftLeft(digits * 4);
+	return hi
+		.or(val.and(hi - 1))
+		.toString(16)
+		.substring(1);
 }
-
 
 class SessionDecoder {
 	constructor (publicKey) {
 		if (!publicKey) {
-			throw new Error('missing public key in session token decoder constructor');
+			throw new Error(
+				'missing public key in session token decoder constructor'
+			);
 		}
 		this.publicKey = convertPublicKeyToPEM(publicKey);
 	}
@@ -59,7 +63,11 @@ class SessionDecoder {
 
 		verifier.update(sessionTokenBuffer);
 
-		const verified = verifier.verify(this.publicKey, base64EncodedSignature, 'base64');
+		const verified = verifier.verify(
+			this.publicKey,
+			base64EncodedSignature,
+			'base64'
+		);
 		if (verified) {
 			return getSessionFromTokenBuffer(sessionTokenBuffer);
 		} else {

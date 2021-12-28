@@ -4,6 +4,13 @@
 
 A simple lib that allows you to decode the uuid from an FT session.
 
+## How to use
+
+```shell
+make install
+make test
+```
+
 ## Warning
 
 The session token holds the UUID but not any information as to the validity of the session - for example if the session

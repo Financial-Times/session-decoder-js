@@ -10,7 +10,7 @@
   "dependencies": {
     "base64url": "3.0.1",
     "long": "3.2.0",
-    "msgpack-javascript": "0.10.0"
+    "msgpackr": "^1.5.2"
   },
   "devDependencies": {
     "@financial-times/n-gage": "^8.2.0",

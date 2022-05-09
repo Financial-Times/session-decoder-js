@@ -13,7 +13,7 @@
     "msgpackr": "^1.5.2"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^8.2.0",
+    "@financial-times/n-gage": "^9.0.0",
     "chai": "^3.5.0",
     "check-engine": "^1.10.1",
     "mocha": "^2.5.3",

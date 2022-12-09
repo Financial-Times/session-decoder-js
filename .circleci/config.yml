@@ -80,7 +80,7 @@ jobs:
       - run:
           name: Install npm v7.20.2 if node-version is 14.19
           command: |
-            if << parameters.node-version >> == "14.19" ; then
+            if "<< parameters.node-version >>" == "14.19" ; then
               npm install -g npm@7.20.2
             fi
       - run:

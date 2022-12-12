@@ -64,9 +64,6 @@ references:
 
 version: 2.1
 
-orbs:
-  node: circleci/node@4.6.0
-
 jobs:
 
   build:
@@ -77,8 +74,12 @@ jobs:
           name: Checkout next-ci-shared-helpers
           command: git clone --depth 1 git@github.com:Financial-Times/next-ci-shared-helpers.git .circleci/shared-helpers
       - *restore_npm_cache
-      - node/install-npm:
-          version: "7"
+      - run:
+          name: Install npm v7.20.2 if node-version is 14.19
+          command: |
+            if [[ "<< parameters.node-version >>" == "14.19" ]] ; then
+              npm install -g npm@7.20.2
+            fi
       - run:
           name: Install project dependencies
           command: make install

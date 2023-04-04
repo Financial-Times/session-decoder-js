@@ -2,17 +2,27 @@
 
 [![CircleCI](https://circleci.com/gh/Financial-Times/session-decoder-js/tree/main.svg?style=svg)](https://circleci.com/gh/Financial-Times/session-decoder-js/tree/main)
 
-A simple lib that allows you to decode the uuid from an FT session.
+A library that allows you to decode the UUID from an FT session.
 
-## Warning
+## Usage
 
-The session token holds the UUID but not any information as to the validity of the session - for example if the session
-was revoked by the FT or expired.
+To use the Session Decoder, you need to provide a public key to the constructor. The public key is used to verify the digital signature of the session token. Here is an example of how to use the Session Decoder to decode a session token:
 
-It is therefore unsuitable to use this library for authentication.
+```js
+const SessionDecoder = require('@financial-times/session-decoder-js');
+const secureDecoder = new SessionDecoder(SESSION_PUBLIC_KEY);
+const uuid = secureDecoder.decode(Session);
+```
 
-Requests that read and write a user's data MUST authenticate directly against the Session API to ensure the session is
-valid.
+## Installation
+
+```shell
+npm install @financial-times/session-decoder-js
+```
+
+## Security Warning
+
+It is important to note that the session token only holds the UUID and does not indicate the validity of the session, such as whether it has expired or been revoked. As a result, it is not recommended to use this library for authentication. Requests that read and write user data must authenticate directly against the Session API to ensure that the session is valid.
 
 For more information:-
 

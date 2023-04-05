@@ -9,7 +9,7 @@ references:
       - image: cimg/node:<< parameters.node-version >>-browsers
     parameters:
       node-version:
-        default: "16.14"
+        default: "16.20"
         type: string
   container_config_lambda_node: &container_config_lambda_node
     working_directory: ~/project/build
@@ -17,7 +17,7 @@ references:
       - image: lambci/lambda:build-nodejs<< parameters.node-version >>
     parameters:
       node-version:
-        default: "14.19"
+        default: "18.15"
         type: string
 
   workspace_root: &workspace_root
@@ -75,10 +75,10 @@ jobs:
           command: git clone --depth 1 git@github.com:Financial-Times/next-ci-shared-helpers.git .circleci/shared-helpers
       - *restore_npm_cache
       - run:
-          name: Install npm v7.20.2 if node-version is 14.19
+          name: Install npm v8.19.4 if node-version is 16.20
           command: |
-            if [[ "<< parameters.node-version >>" == "14.19" ]] ; then
-              npm install -g npm@7.20.2
+            if [[ "<< parameters.node-version >>" == "16.20" ]] ; then
+              npm install -g npm@8.19.4
             fi
       - run:
           name: Install project dependencies
@@ -138,14 +138,14 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15" ]
       - test:
           requires:
             - build-v<< matrix.node-version >>
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15"  ]
 
   build-test-publish:
     jobs:
@@ -155,7 +155,7 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15"  ]
       - test:
           filters:
             <<: *filters_version_tag
@@ -164,13 +164,13 @@ workflows:
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15" ]
       - publish:
           context: npm-publish-token
           filters:
             <<: *filters_version_tag
           requires:
-            - test-v16.14
+            - test-v18.15
 
   nightly:
     triggers:
@@ -183,7 +183,7 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15"  ]
       - test:
           requires:
             - build-v<< matrix.node-version >>
@@ -191,7 +191,7 @@ workflows:
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.14", "14.19" ]
+              node-version: [ "16.20", "18.15"  ]
 
 notify:
   webhooks:

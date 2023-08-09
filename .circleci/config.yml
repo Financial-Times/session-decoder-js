@@ -9,7 +9,7 @@ references:
       - image: cimg/node:<< parameters.node-version >>-browsers
     parameters:
       node-version:
-        default: "16.20"
+        default: "18.17"
         type: string
   container_config_lambda_node: &container_config_lambda_node
     working_directory: ~/project/build
@@ -17,11 +17,10 @@ references:
       - image: lambci/lambda:build-nodejs<< parameters.node-version >>
     parameters:
       node-version:
-        default: "18.15"
+        default: "18.17"
         type: string
 
-  workspace_root: &workspace_root
-    ~/project
+  workspace_root: &workspace_root ~/project
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -29,19 +28,19 @@ references:
 
   npm_cache_keys: &npm_cache_keys
     keys:
-        - v1-dependency-npm-{{ checksum "package.json" }}-
-        - v1-dependency-npm-{{ checksum "package.json" }}
-        - v1-dependency-npm-
+      - v1-dependency-npm-{{ checksum "package.json" }}-
+      - v1-dependency-npm-{{ checksum "package.json" }}
+      - v1-dependency-npm-
 
   cache_npm_cache: &cache_npm_cache
     save_cache:
-        key: v1-dependency-npm-{{ checksum "package.json" }}-{{ epoch }}
-        paths:
+      key: v1-dependency-npm-{{ checksum "package.json" }}-{{ epoch }}
+      paths:
         - ./node_modules/
 
   restore_npm_cache: &restore_npm_cache
     restore_cache:
-        <<: *npm_cache_keys
+      <<: *npm_cache_keys
 
   filters_only_main: &filters_only_main
     branches:
@@ -72,7 +71,9 @@ jobs:
       - checkout
       - run:
           name: Checkout next-ci-shared-helpers
-          command: git clone --depth 1 git@github.com:Financial-Times/next-ci-shared-helpers.git .circleci/shared-helpers
+          command: git clone --depth 1
+            git@github.com:Financial-Times/next-ci-shared-helpers.git --branch
+            unpin-heroku .circleci/shared-helpers
       - *restore_npm_cache
       - run:
           name: Install npm v8.19.4 if node-version is 16.20
@@ -138,14 +139,14 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15" ]
+              node-version: [ "16.20", "18.17" ]
       - test:
           requires:
             - build-v<< matrix.node-version >>
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15"  ]
+              node-version: [ "16.20", "18.17" ]
 
   build-test-publish:
     jobs:
@@ -155,7 +156,7 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15"  ]
+              node-version: [ "16.20", "18.17" ]
       - test:
           filters:
             <<: *filters_version_tag
@@ -164,13 +165,13 @@ workflows:
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15" ]
+              node-version: [ "16.20", "18.17" ]
       - publish:
           context: npm-publish-token
           filters:
             <<: *filters_version_tag
           requires:
-            - test-v18.15
+            - test-v18.17
 
   nightly:
     triggers:
@@ -183,7 +184,7 @@ workflows:
           name: build-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15"  ]
+              node-version: [ "16.20", "18.17" ]
       - test:
           requires:
             - build-v<< matrix.node-version >>
@@ -191,7 +192,7 @@ workflows:
           name: test-v<< matrix.node-version >>
           matrix:
             parameters:
-              node-version: [ "16.20", "18.15"  ]
+              node-version: [ "16.20", "18.17" ]
 
 notify:
   webhooks:

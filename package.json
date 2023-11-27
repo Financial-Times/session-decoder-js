@@ -3,21 +3,26 @@
   "version": "1.3.0",
   "main": "src/session-decoder.js",
   "scripts": {
-    "test": "",
-    "prepare": "npx snyk protect || npx snyk protect -d || true"
+    "test": "dotcom-tool-kit test:local",
+    "test-coverage": "nyc mocha test",
+    "prepare": "npx snyk protect || npx snyk protect -d || true",
+    "build": "dotcom-tool-kit build:local",
+    "start": "dotcom-tool-kit run:local"
   },
   "dependencies": {
     "base64url": "3.0.1",
     "msgpackr": "^1.8.5"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^9.0.1",
     "chai": "^4.3.7",
     "check-engine": "^1.10.1",
     "mocha": "^10.2.0",
     "npm-prepublish": "^1.2.3",
     "nyc": "^15.0.1",
-    "snyk": "^1.1137.0"
+    "snyk": "^1.1137.0",
+    "dotcom-tool-kit": "^3.3.9",
+    "@dotcom-tool-kit/component": "^4.0.4",
+    "@dotcom-tool-kit/mocha": "^3.1.5"
   },
   "volta": {
     "node": "18.17.0"
@@ -26,7 +31,7 @@
     "hooks": {
       "commit-msg": "secret-squirrel-commitmsg",
       "pre-commit": "secret-squirrel",
-      "pre-push": "make verify -j3"
+      "pre-push": "npm run test"
     }
   },
   "engines": {

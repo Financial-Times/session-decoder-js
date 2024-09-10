@@ -20,9 +20,9 @@
     "npm-prepublish": "^1.2.3",
     "nyc": "^15.0.1",
     "snyk": "^1.1137.0",
-    "dotcom-tool-kit": "^3.3.9",
-    "@dotcom-tool-kit/component": "^4.0.4",
-    "@dotcom-tool-kit/mocha": "^3.1.5"
+    "dotcom-tool-kit": "^4.0.0",
+    "@dotcom-tool-kit/component": "^5.0.0",
+    "@dotcom-tool-kit/mocha": "^4.0.0"
   },
   "volta": {
     "node": "18.17.0"
